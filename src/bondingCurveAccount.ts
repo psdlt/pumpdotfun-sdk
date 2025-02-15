@@ -1,5 +1,7 @@
 import { struct, bool, u64, Layout } from "@coral-xyz/borsh";
 
+const TERMINAL_VIRTUAL_TOKENS_AMOUNT = BigInt(279900000000000);
+
 export class BondingCurveAccount {
   public discriminator: bigint;
   public virtualTokenReserves: bigint;
@@ -50,6 +52,29 @@ export class BondingCurveAccount {
 
     // Return the minimum of the calculated tokens and real token reserves
     return s < this.realTokenReserves ? s : this.realTokenReserves;
+  }
+
+  howMuchToComplete() {
+    if (this.complete) {
+      throw new Error('Curve is compelte');
+    }
+
+    // Tokens available above TERMINAL_VIRTUAL_TOKENS_AMOUNT
+    const tokensToBuy = this.virtualTokenReserves - TERMINAL_VIRTUAL_TOKENS_AMOUNT;
+
+    // Constant k = xy
+    const k = this.virtualSolReserves * this.virtualTokenReserves;
+
+    // New virtualTokenReserves after buyout
+    const newVirtualTokenReserves = TERMINAL_VIRTUAL_TOKENS_AMOUNT;
+
+    // Compute new virtualSolReserves using k = xy / new y
+    const newVirtualSolReserves = k / newVirtualTokenReserves;
+
+    // SOL to spend = Initial reserves - New reserves
+    const solToSpend = newVirtualSolReserves - this.virtualSolReserves;
+
+    return { tokensToBuy, solToSpend };
   }
 
   getSellPrice(amount: bigint, feeBasisPoints: bigint): bigint {
