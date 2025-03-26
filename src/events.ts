@@ -11,28 +11,28 @@ export function toCreateEvent(event: CreateEvent): CreateEvent {
     name: event.name,
     symbol: event.symbol,
     uri: event.uri,
-    mint: new PublicKey(event.mint),
-    bondingCurve: new PublicKey(event.bondingCurve),
-    user: new PublicKey(event.user),
+    mint: event.mint.toString(),
+    bondingCurve: event.bondingCurve.toString(),
+    user: event.user.toString(),
   };
 }
 
 export function toCompleteEvent(event: CompleteEvent): CompleteEvent {
   return {
-    user: new PublicKey(event.user),
-    mint: new PublicKey(event.mint),
-    bondingCurve: new PublicKey(event.bondingCurve),
+    user: event.user.toString(),
+    mint: event.mint.toString(),
+    bondingCurve: event.bondingCurve,
     timestamp: event.timestamp,
   };
 }
 
 export function toTradeEvent(event: TradeEvent): TradeEvent {
   return {
-    mint: new PublicKey(event.mint),
+    mint: event.mint.toString(),
     solAmount: BigInt(event.solAmount),
     tokenAmount: BigInt(event.tokenAmount),
     isBuy: event.isBuy,
-    user: new PublicKey(event.user),
+    user: event.user.toString(),
     timestamp: Number(event.timestamp),
     virtualSolReserves: BigInt(event.virtualSolReserves),
     virtualTokenReserves: BigInt(event.virtualTokenReserves),

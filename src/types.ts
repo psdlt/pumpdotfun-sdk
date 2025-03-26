@@ -24,17 +24,17 @@ export type CreateEvent = {
   name: string;
   symbol: string;
   uri: string;
-  mint: PublicKey;
-  bondingCurve: PublicKey;
-  user: PublicKey;
+  mint: string;
+  bondingCurve: string;
+  user: string;
 };
 
 export type TradeEvent = {
-  mint: PublicKey;
+  mint: string;
   solAmount: bigint;
   tokenAmount: bigint;
   isBuy: boolean;
-  user: PublicKey;
+  user: string;
   timestamp: number;
   virtualSolReserves: bigint;
   virtualTokenReserves: bigint;
@@ -43,9 +43,9 @@ export type TradeEvent = {
 };
 
 export type CompleteEvent = {
-  user: PublicKey;
-  mint: PublicKey;
-  bondingCurve: PublicKey;
+  user: string;
+  mint: string;
+  bondingCurve: string;
   timestamp: number;
 };
 
